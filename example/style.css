@@ -1,0 +1,17 @@
+* {
+  font-family: sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.header-page {
+  width: 100%;
+  height: 500px;
+  background-color: #ddd;
+}
+
+section {
+  width: 100%;
+  height: 100vh;
+}

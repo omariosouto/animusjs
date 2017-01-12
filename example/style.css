@@ -1,17 +1,32 @@
-* {
-  font-family: sans-serif;
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0 auto;
-}
-
-.header-page {
-  width: 100%;
-  height: 500px;
-  background-color: #ddd;
-}
+html,
+body { height: 100%; }
 
 section {
+  margin: 1rem;
+}
+
+header {
+  height: 100%;
+  text-align: center;
+  background: blue;
+}
+
+h1 {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  color: white;
+
+}
+.is--fixed {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100vh;
+  line-height: 1.5;
+  transform: translateY(0);
+  background: blue;
 }

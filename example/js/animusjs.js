@@ -1,1 +1,1 @@
-console.log("Hi");
+!function(o){"use strict";o.animusjs=function(){return{core:{events:{scroll:{direction:"",current:0,previous:0,getScroll:function(o){scroll=animusjs.core.events.scroll,scroll.current=window.pageYOffset,scroll.current>scroll.previous?scroll.direction="down":scroll.direction="up",scroll.previous=window.pageYOffset},init:function(){window.addEventListener("scroll",this.getScroll,!1),console.log(this)}}}}}}()}(this),window.animusjs.core.events.scroll.init();

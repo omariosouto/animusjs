@@ -59,16 +59,16 @@ gulp.task('uglify', function () {
 		es.merge([
 			gulp.src(['src/**/*.js']).pipe(concat('scripts.js')).pipe(uglify())
 		])
+    .pipe(concat( pkgJson.name + '.js'))
+      .pipe(minify({
+          ext:{
+              src:'.js',
+              min:'.min.js'
+          },
+          exclude: ['tasks'],
+          ignoreFiles: ['.combo.js', '-min.js']
+      }))
     .pipe(plumber())
-		.pipe(concat( pkgJson.name + '.js'))
-	    .pipe(minify({
-	        ext:{
-	            src:'.js',
-	            min:'.min.js'
-	        },
-	        exclude: ['tasks'],
-	        ignoreFiles: ['.combo.js', '-min.js']
-	    }))
     .pipe(gulp.dest('./example/js'))
 		.pipe(gulp.dest('./dist/js'));
     browserSync.reload

@@ -60,15 +60,15 @@ gulp.task('uglify', function () {
 			gulp.src(['src/**/*.js']).pipe(concat('scripts.js')).pipe(uglify())
 		])
     .pipe(concat( pkgJson.name + '.js'))
-      .pipe(minify({
-          ext:{
-              src:'.js',
-              min:'.min.js'
-          },
-          exclude: ['tasks'],
-          ignoreFiles: ['.combo.js', '-min.js']
-      }))
     .pipe(plumber())
+    .pipe(minify({
+        ext:{
+            src:'.js',
+            min:'.min.js'
+        },
+        exclude: ['tasks'],
+        ignoreFiles: ['.combo.js', '-min.js']
+    }))
     .pipe(gulp.dest('./example/js'))
 		.pipe(gulp.dest('./dist/js'));
     browserSync.reload

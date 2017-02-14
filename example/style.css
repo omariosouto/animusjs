@@ -42,15 +42,15 @@ p {
 }
 
 p:nth-child(odd) {
-  transform: translateX(-50px);
+  transform: translateX(-150px);
 }
 
 p:nth-child(even) {
-  transform: translateX(50px);
+  transform: translateX(150px);
 }
 
 
-p.teste {
+p.active {
   opacity: 1;
   transition: .5s ease-in-out;
   transform: translateX(0px);

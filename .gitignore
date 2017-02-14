@@ -48,3 +48,6 @@ jspm_packages
 
 # Maps
 *.map
+
+# Deploy
+.publish/

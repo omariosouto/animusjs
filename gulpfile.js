@@ -12,7 +12,13 @@ const browserSync = require('browser-sync').create();
 const reload      = browserSync.reload;
 const fs = require('fs');
 const pkgJson = JSON.parse(fs.readFileSync('./package.json'));
+const ghPages = require('gulp-gh-pages');
 
+
+gulp.task('deploy', function() {
+  return gulp.src('./example/**/*')
+    .pipe(ghPages());
+});
 
 const src = {
     js: './src/**/*.js',
@@ -57,7 +63,7 @@ gulp.task('jshint', function () {
 gulp.task('uglify', function () {
 	return watch('./src/**/*.js', function () {
 		es.merge([
-			gulp.src(['src/**/*.js']).pipe(concat('scripts.js')).pipe(uglify())
+			gulp.src(['src/**/*.js']).pipe(concat('scripts.js'))
 		])
     .pipe(concat( pkgJson.name + '.js'))
     .pipe(plumber())

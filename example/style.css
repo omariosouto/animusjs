@@ -1,6 +1,10 @@
 html,
 body { height: 100%; }
 
+body {
+  overflow-x: hidden;
+}
+
 section {
   margin: 1rem;
 }
@@ -29,4 +33,25 @@ h1 {
   line-height: 1.5;
   transform: translateY(0);
   background: blue;
+}
+
+
+p {
+  opacity: 0;
+  transition: .5s ease-in-out;
+}
+
+p:nth-child(odd) {
+  transform: translateX(-50px);
+}
+
+p:nth-child(even) {
+  transform: translateX(50px);
+}
+
+
+p.teste {
+  opacity: 1;
+  transition: .5s ease-in-out;
+  transform: translateX(0px);
 }

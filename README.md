@@ -19,6 +19,7 @@ After it you need to include the library
 
 ```html
 <script src="js/animusjs.min.js"></script>
+<script src="https://mariosouto.com/animusjs/js/animusjs.min.js"></script> <!-- Or just import from my website -->
 ```
 
 and then you init the magic!

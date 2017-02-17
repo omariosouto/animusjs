@@ -72,12 +72,6 @@
           var isHalfShown = slideInAt > currElement.offsetTop;
           var isNotScrolledPast = pageScrollY < elementBottom;
 
-
-console.log('slideInAt', window );
-//console.log('elementBottom', elementBottom );
-//console.log('isHalfShown', isHalfShown );
-//console.log('isNotScrolledPast', isNotScrolledPast );
-
           if (isHalfShown && isNotScrolledPast && !(animOptions.animState === 'anim-out')) {
             self.animTriggerIn(currElement, animOptions);
           }

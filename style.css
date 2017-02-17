@@ -1,5 +1,5 @@
 html,
-body { height: 100%; }
+body { height: 100%; font-family: sans-serif; }
 
 body {
   overflow-x: hidden;
@@ -54,4 +54,11 @@ p.active {
   opacity: 1;
   transition: .5s ease-in-out;
   transform: translateX(0px);
+}
+
+
+/* Helpers */
+
+.text-center {
+  text-align: center;
 }

@@ -10,121 +10,87 @@
 
     return {
       core : {
-        scrollChecker: function scrollChecker() {
-
-        },
         animIn: function animIn() {
-
-          //console.log('[ANIM IN FUNCTION]');
-          var animState = 'anim-in';
+          var self = this;
           var animInElements  = document.querySelectorAll('[anim-in]');
-          var options = {};
-          options.status = 'animate';
+          var animOptions = {
+            animState: 'anim-in'
+          };
 
           function animInScrollChecker() {
-
             Array.prototype.forEach.call(animInElements, function(currElement, index) {
-                var attribute = currElement.getAttribute(animState);
-                var animType  = currElement.getAttribute('anim-type');
-
-                // half way through the element
-                var slideInAt = (window.scrollY + window.innerHeight) - currElement.offsetHeight / 2;
-                // bottom of the element
-                var elementBottom = currElement.offsetTop + currElement.offsetHeight;
-                var isHalfShown = slideInAt > currElement.offsetTop;
-                var isNotScrolledPast = window.scrollY < elementBottom;
-
-                if (isHalfShown && isNotScrolledPast) {
-                  if(animType === 'function') {
-                    window[attribute](currElement, options);
-                  } else {
-                    currElement.classList.add(attribute);
-                  }
-                }
+              self.animScrollChecker(currElement, animOptions);
             });
-
           }
 
           window.addEventListener('scroll', animInScrollChecker);
-
         },
         animOut: function animOut() {
-
-          //console.log('[ANIM IN FUNCTION]');
-          var animState = 'anim-out';
+          var self = this;
           var animOutElements  = document.querySelectorAll('[anim-out]');
-          var options = {};
-
-          options.status = 'reverse';
+          var animOptions = {
+            animState: 'anim-out'
+          };
 
           function animOutScrollChecker() {
-
             Array.prototype.forEach.call(animOutElements, function(currElement, index) {
-                var attribute = currElement.getAttribute(animState);
-                var animType  = currElement.getAttribute('anim-type');
-
-                // half way through the element
-                var slideInAt = (window.scrollY + window.innerHeight) - currElement.offsetHeight / 2;
-                // bottom of the element
-                var elementBottom = currElement.offsetTop + currElement.offsetHeight;
-                var isHalfShown = slideInAt > currElement.offsetTop;
-                var isNotScrolledPast = window.scrollY < elementBottom;
-
-                if (isHalfShown && isNotScrolledPast) {
-                  // teste
-                  } else {
-                  if(animType === 'function') {
-                    window[attribute](currElement, options);
-                  } else {
-                    currElement.classList.remove(attribute);
-                  }
-                }
+              self.animScrollChecker(currElement, animOptions);
             });
-
           }
 
           window.addEventListener('scroll', animOutScrollChecker);
-
         },
         animInOut: function animInOut() {
-          //console.log('[ANIM IN FUNCTION]');
-          var animState = 'anim-in-out';
+          var self = this;
           var animInOutElements  = document.querySelectorAll('[anim-in-out]');
-          var options = {};
+          var animOptions = {
+            animState: 'anim-in-out'
+          };
 
           function animInOutScrollChecker() {
-
             Array.prototype.forEach.call(animInOutElements, function(currElement, index) {
-                var attribute = currElement.getAttribute(animState);
-                var animType  = currElement.getAttribute('anim-type');
-
-                // half way through the element
-                var slideInAt = (window.scrollY + window.innerHeight) - currElement.offsetHeight / 2;
-                // bottom of the element
-                var elementBottom = currElement.offsetTop + currElement.offsetHeight;
-                var isHalfShown = slideInAt > currElement.offsetTop;
-                var isNotScrolledPast = window.scrollY < elementBottom;
-
-                if (isHalfShown && isNotScrolledPast) {
-                  if(animType === 'function') {
-                    window[attribute](currElement, options);
-                  } else {
-                    currElement.classList.add(attribute);
-                  }
-                } else {
-                  if(animType === 'function') {
-                    window[attribute](currElement, options);
-                  } else {
-                    currElement.classList.remove(attribute);
-                  }
-                }
+              self.animScrollChecker(currElement, animOptions);
             });
-
           }
 
           window.addEventListener('scroll', animInOutScrollChecker);
+        },
+        animScrollChecker: function animScrollChecker(currElement, animOptions) {
+          var self = this;
+          // Current Element values
+          animOptions.attribute = currElement.getAttribute(animOptions.animState);
+          animOptions.animType  = currElement.getAttribute('anim-type');
 
-        }
+          // Scroll State Values
+          var slideInAt = (window.scrollY + window.innerHeight) - currElement.offsetHeight / 2;
+          var elementBottom = currElement.offsetTop + currElement.offsetHeight;
+          var isHalfShown = slideInAt > currElement.offsetTop;
+          var isNotScrolledPast = window.scrollY < elementBottom;
+
+          if (isHalfShown && isNotScrolledPast && !(animOptions.animState === 'anim-out')) {
+            self.animTriggerIn(currElement, animOptions);
+          }
+          if(!(isHalfShown && isNotScrolledPast) && !(animOptions.animState === 'anim-in')) {
+            self.animTriggerOut(currElement, animOptions);
+          }
+        },
+        animTriggerIn: function animTriggerIn(currElement, animOptions) {
+          animOptions.status = 'animate';
+
+          if(animOptions.animType === 'function') {
+            window[animOptions.attribute](currElement, animOptions);
+          } else {
+            currElement.classList.add(animOptions.attribute);
+          }
+        },
+        animTriggerOut: function animTriggerIn(currElement, animOptions) {
+          animOptions.status = 'reverse';
+          if(animOptions.animType === 'function') {
+            window[animOptions.attribute](currElement, animOptions);
+          } else {
+            currElement.classList.remove(animOptions.attribute);
+          }
+        },
       },
       init: function() {
 
@@ -136,9 +102,6 @@
       }
     };
 
-
   }());
-
-
 
 }(this));

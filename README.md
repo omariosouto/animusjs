@@ -8,7 +8,9 @@ With AnimusJS, you can create animations Changing CSS Classes or using JavaScrip
 
 **First things first...**
 
-> npm install animusjs
+```terminal
+npm install animusjs
+```
 
 or
 

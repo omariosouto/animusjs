@@ -57,15 +57,26 @@
         },
         animScrollChecker: function animScrollChecker(currElement, animOptions) {
           var self = this;
+
           // Current Element values
           animOptions.attribute = currElement.getAttribute(animOptions.animState);
           animOptions.animType  = currElement.getAttribute('anim-type');
 
           // Scroll State Values
-          var slideInAt = (window.scrollY + window.innerHeight) - currElement.offsetHeight / 2;
+          var pageScrollY =
+                          window.scrollY // Modern Way (Chrome, Firefox)
+                       || window.pageYOffset // (Modern IE, including IE11
+                       || document.documentElement.scrollTop // (Old IE, 6,7,8)
+          var slideInAt = (pageScrollY + window.innerHeight) - currElement.offsetHeight / 2;
           var elementBottom = currElement.offsetTop + currElement.offsetHeight;
           var isHalfShown = slideInAt > currElement.offsetTop;
-          var isNotScrolledPast = window.scrollY < elementBottom;
+          var isNotScrolledPast = pageScrollY < elementBottom;
+
+
+console.log('slideInAt', window );
+//console.log('elementBottom', elementBottom );
+//console.log('isHalfShown', isHalfShown );
+//console.log('isNotScrolledPast', isNotScrolledPast );
 
           if (isHalfShown && isNotScrolledPast && !(animOptions.animState === 'anim-out')) {
             self.animTriggerIn(currElement, animOptions);

@@ -47,11 +47,12 @@
             animState: 'anim-in-out'
           };
 
-          function animInOutScrollChecker() {
+          var animInOutScrollChecker = self.debounce(function animInOutScrollChecker() {
             Array.prototype.forEach.call(animInOutElements, function(currElement, index) {
               self.animScrollChecker(currElement, animOptions);
             });
-          }
+          }, 50);
+
 
           window.addEventListener('scroll', animInOutScrollChecker);
         },
@@ -63,20 +64,11 @@
           animOptions.animType  = currElement.getAttribute('anim-type');
 
           // Scroll State Values
-          var pageScrollY =
-                          window.scrollY // Modern Way (Chrome, Firefox)
-                       || window.pageYOffset // (Modern IE, including IE11
-                       || document.documentElement.scrollTop // (Old IE, 6,7,8)
+          var pageScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
           var slideInAt = (pageScrollY + window.innerHeight) - currElement.offsetHeight / 2;
           var elementBottom = currElement.offsetTop + currElement.offsetHeight;
           var isHalfShown = slideInAt > currElement.offsetTop;
           var isNotScrolledPast = pageScrollY < elementBottom;
-
-
-console.log('slideInAt', window );
-//console.log('elementBottom', elementBottom );
-//console.log('isHalfShown', isHalfShown );
-//console.log('isNotScrolledPast', isNotScrolledPast );
 
           if (isHalfShown && isNotScrolledPast && !(animOptions.animState === 'anim-out')) {
             self.animTriggerIn(currElement, animOptions);
@@ -102,6 +94,24 @@ console.log('slideInAt', window );
             currElement.classList.remove(animOptions.attribute);
           }
         },
+        debounce: function debounce(func, wait, immediate) {
+          var timeout;
+          return function() {
+            var context = this, args = arguments;
+            var later = function() {
+              timeout = null;
+              if (!immediate) {
+                func.apply(context, args);
+              }
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) {
+              func.apply(context, args);
+            }
+          };
+        }
       },
       init: function() {
 
@@ -116,3 +126,8 @@ console.log('slideInAt', window );
   }());
 
 }(this));
+
+
+
+
+

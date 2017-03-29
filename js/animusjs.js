@@ -1,4 +1,4 @@
-(function(world){
+(function(win, doc){
   'use strict';
 
 
@@ -6,13 +6,22 @@
    * [animusjs description]
    * @return {[Object]}
    */
-  world.animusjs = (function(){
+  win.animusjs = (function(){
 
     return {
       core : {
+        throttle: function throttle(fn, wait) {
+          var time = Date.now();
+          return function () {
+            if ( (time + wait - Date.now()) < 0) {
+              fn();
+              time = Date.now();
+            }
+          };
+        },
         animIn: function animIn() {
           var self = this;
-          var animInElements  = document.querySelectorAll('[anim-in]');
+          var animInElements  = doc.querySelectorAll('[anim-in]');
           var animOptions = {
             animState: 'anim-in'
           };
@@ -23,11 +32,11 @@
             });
           }
 
-          window.addEventListener('scroll', animInScrollChecker);
+          win.addEventListener('scroll', self.throttle(animInScrollChecker, 100));
         },
         animOut: function animOut() {
           var self = this;
-          var animOutElements  = document.querySelectorAll('[anim-out]');
+          var animOutElements  = doc.querySelectorAll('[anim-out]');
           var animOptions = {
             animState: 'anim-out'
           };
@@ -38,11 +47,11 @@
             });
           }
 
-          window.addEventListener('scroll', animOutScrollChecker);
+          win.addEventListener('scroll', self.throttle(animOutScrollChecker, 100));
         },
         animInOut: function animInOut() {
           var self = this;
-          var animInOutElements  = document.querySelectorAll('[anim-in-out]');
+          var animInOutElements  = doc.querySelectorAll('[anim-in-out]');
           var animOptions = {
             animState: 'anim-in-out'
           };
@@ -53,7 +62,7 @@
             });
           }
 
-          window.addEventListener('scroll', animInOutScrollChecker);
+          win.addEventListener('scroll', self.throttle(animInOutScrollChecker, 100));
         },
         animScrollChecker: function animScrollChecker(currElement, animOptions) {
           var self = this;
@@ -63,20 +72,11 @@
           animOptions.animType  = currElement.getAttribute('anim-type');
 
           // Scroll State Values
-          var pageScrollY =
-                          window.scrollY // Modern Way (Chrome, Firefox)
-                       || window.pageYOffset // (Modern IE, including IE11
-                       || document.documentElement.scrollTop // (Old IE, 6,7,8)
-          var slideInAt = (pageScrollY + window.innerHeight) - currElement.offsetHeight / 2;
+          var pageScrollY = win.scrollY || win.pageYOffset || doc.documentElement.scrollTop;
+          var slideInAt = (pageScrollY + win.innerHeight) - currElement.offsetHeight / 2;
           var elementBottom = currElement.offsetTop + currElement.offsetHeight;
           var isHalfShown = slideInAt > currElement.offsetTop;
           var isNotScrolledPast = pageScrollY < elementBottom;
-
-
-console.log('slideInAt', window );
-//console.log('elementBottom', elementBottom );
-//console.log('isHalfShown', isHalfShown );
-//console.log('isNotScrolledPast', isNotScrolledPast );
 
           if (isHalfShown && isNotScrolledPast && !(animOptions.animState === 'anim-out')) {
             self.animTriggerIn(currElement, animOptions);
@@ -89,16 +89,18 @@ console.log('slideInAt', window );
           animOptions.status = 'animate';
 
           if(animOptions.animType === 'function') {
-            window[animOptions.attribute](currElement, animOptions);
-          } else {
+            win[animOptions.attribute](currElement, animOptions);
+          }
+          if(animOptions.animType === 'class' || animOptions.animType === '') {
             currElement.classList.add(animOptions.attribute);
           }
         },
         animTriggerOut: function animTriggerIn(currElement, animOptions) {
           animOptions.status = 'reverse';
           if(animOptions.animType === 'function') {
-            window[animOptions.attribute](currElement, animOptions);
-          } else {
+            win[animOptions.attribute](currElement, animOptions);
+          }
+          if(animOptions.animType === 'class' || animOptions.animType === '') {
             currElement.classList.remove(animOptions.attribute);
           }
         },
@@ -115,4 +117,4 @@ console.log('slideInAt', window );
 
   }());
 
-}(this));
+}(window, document));

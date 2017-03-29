@@ -42,18 +42,18 @@ p {
 }
 
 p:nth-child(odd) {
-  transform: translateX(-150px);
+  transform: translate3d(-150px, 0, 0);
 }
 
 p:nth-child(even) {
-  transform: translateX(150px);
+  transform: translate3d(150px, 0, 0);
 }
 
 
 p.active {
   opacity: 1;
   transition: .5s ease-in-out;
-  transform: translateX(0px);
+  transform: translate3d(0, 0, 0);
 }
 
 

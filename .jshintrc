@@ -40,6 +40,7 @@
     "loopfunc": true,
     "maxerr": 50,
     "moz": false,
+    "-W018": false,
     "multistr": false,
     "notypeof": false,
     "proto": false,

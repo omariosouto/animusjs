@@ -10,6 +10,15 @@
 
     return {
       core : {
+        throttle: function throttle(fn, wait) {
+          var time = Date.now();
+          return function () {
+            if ( (time + wait - Date.now()) < 0) {
+              fn();
+              time = Date.now();
+            }
+          };
+        },
         animIn: function animIn() {
           var self = this;
           var animInElements  = doc.querySelectorAll('[anim-in]');
@@ -23,7 +32,7 @@
             });
           }
 
-          win.addEventListener('scroll', animInScrollChecker);
+          win.addEventListener('scroll', self.throttle(animInScrollChecker, 100));
         },
         animOut: function animOut() {
           var self = this;
@@ -38,7 +47,7 @@
             });
           }
 
-          win.addEventListener('scroll', animOutScrollChecker);
+          win.addEventListener('scroll', self.throttle(animOutScrollChecker, 100));
         },
         animInOut: function animInOut() {
           var self = this;
@@ -53,7 +62,7 @@
             });
           }
 
-          win.addEventListener('scroll', animInOutScrollChecker);
+          win.addEventListener('scroll', self.throttle(animInOutScrollChecker, 100));
         },
         animScrollChecker: function animScrollChecker(currElement, animOptions) {
           var self = this;
@@ -81,7 +90,8 @@
 
           if(animOptions.animType === 'function') {
             win[animOptions.attribute](currElement, animOptions);
-          } else {
+          }
+          if(animOptions.animType === 'class' || animOptions.animType === '') {
             currElement.classList.add(animOptions.attribute);
           }
         },
@@ -89,7 +99,8 @@
           animOptions.status = 'reverse';
           if(animOptions.animType === 'function') {
             win[animOptions.attribute](currElement, animOptions);
-          } else {
+          }
+          if(animOptions.animType === 'class' || animOptions.animType === '') {
             currElement.classList.remove(animOptions.attribute);
           }
         },

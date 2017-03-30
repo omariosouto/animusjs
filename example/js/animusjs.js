@@ -91,7 +91,7 @@
           if(animOptions.animType === 'function') {
             win[animOptions.attribute](currElement, animOptions);
           }
-          if(animOptions.animType === 'class' || animOptions.animType === '') {
+          if(animOptions.animType === 'class' || !animOptions.animType) {
             currElement.classList.add(animOptions.attribute);
           }
         },
@@ -100,7 +100,7 @@
           if(animOptions.animType === 'function') {
             win[animOptions.attribute](currElement, animOptions);
           }
-          if(animOptions.animType === 'class' || animOptions.animType === '') {
+          if(animOptions.animType === 'class' || !animOptions.animType) {
             currElement.classList.remove(animOptions.attribute);
           }
         },

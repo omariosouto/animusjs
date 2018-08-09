@@ -1,4 +1,9 @@
 # AnimusJS
+
+[DEPRECATED]
+
+> A new version of this lib is comming :)
+
 AnimusJS is the solution for combine JS and CSS animations.
 
 With AnimusJS, you can create animations Changing CSS Classes or using JavaScript Functions very easy!
